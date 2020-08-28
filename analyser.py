@@ -49,20 +49,23 @@ def genAnalysis():
     df.to_csv(r"SourceIP_1000.csv")
 
 def geolocate():
-    df = pd.read_csv("SourceIP_1000.csv")
+    df = pd.read_csv("SourceIP.csv")
     x=0
     data=pd.DataFrame(columns=['IP','asn_country_code'])
     for i, row in df.iterrows():
         try:
             x+=1
+            print(x)
             ip=row['Source IP']
             results = IPASN(Net(ip)).lookup()
             data=data.append({'IP':ip,'country_code':results['asn_country_code']},ignore_index=True)
         except:
             print("Big Oof")
 
-    data.to_csv(r"geolocated.csv")
-    df=pd.read_csv(r"geolocated.csv")
+    data.to_csv(r"geolocatedAll.csv")
+    df=pd.read_csv(r"geolocatedAll.csv")
     CC = df['country_code'].value_counts()
 
-    CC.to_csv(r"CC.csv", header = True)
+    CC.to_csv(r"CC_All.csv", header = True)
+
+geolocate()
