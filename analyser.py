@@ -50,7 +50,8 @@ def genAnalysis():
 
 def geolocate():
     df = pd.read_csv("SourceIP.csv")
-    x=0
+    x = 0
+    errorCounter = 0
     data=pd.DataFrame(columns=['IP','asn_country_code'])
     for i, row in df.iterrows():
         try:
@@ -61,6 +62,10 @@ def geolocate():
             data=data.append({'IP':ip,'country_code':results['asn_country_code']},ignore_index=True)
         except:
             print("Big Oof")
+            errorCounter+=1
+        
+    print("Error Amount")
+    print(errorCounter)
 
     data.to_csv(r"geolocatedAll.csv")
     df=pd.read_csv(r"geolocatedAll.csv")
